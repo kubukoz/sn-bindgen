@@ -47,10 +47,8 @@
               mkdir -p $out/bin
               cp bin/bindgen $out/bin/
             '';
-            buildInputs = with pkgs; [
-              libclang
-            ];
             nativeBuildInputs = with pkgs; [
+              libclang
               clang
               libunwind
               stdenv
