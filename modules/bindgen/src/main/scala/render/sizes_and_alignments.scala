@@ -39,7 +39,7 @@ def alignment(typ: CType)(using AliasResolver): CSize =
     case real: NumericReal         => staticSize(real)
     case Arr(of, Some(_))          => alignment(of)
     case Pointer(_)                => staticSize(typ)
-    case _: Function               => 8.toULong
+    case _: Function               => 4.toULong
     case Struct(fields) =>
       fields.map(alignment).maxOption.getOrElse(1.toULong)
     case Bool                           => 1.toULong
@@ -52,6 +52,7 @@ def alignment(typ: CType)(using AliasResolver): CSize =
   end match
 end alignment
 
+// https://github.com/indoorvivants/sn-bindgen/issues/262
 def staticSize(typ: CType)(using AliasResolver): CSize =
   import CType.*
   typ match
@@ -69,8 +70,8 @@ def staticSize(typ: CType)(using AliasResolver): CSize =
         case FloatingBase.LongDouble => 8.toULong
     case Arr(of, Some(sz)) =>
       sz.toULong * staticSize(of)
-    case Pointer(_)       => 8.toULong
-    case _: Function      => 8.toULong
+    case Pointer(_)       => 4.toULong
+    case _: Function      => 4.toULong
     case Enum(underlying) => staticSize(underlying)
     case Struct(fields) =>
       var res = 0.toULong
