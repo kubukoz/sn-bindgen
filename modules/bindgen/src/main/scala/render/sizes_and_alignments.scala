@@ -61,8 +61,8 @@ def staticSize(typ: CType)(using AliasResolver): CSize =
         case IntegralBase.Char     => 1.toULong
         case IntegralBase.Short    => 2.toULong
         case IntegralBase.Int      => 4.toULong
-        case IntegralBase.Long     => 8.toULong
-        case IntegralBase.LongLong => 8.toULong
+        case IntegralBase.Long     => 4.toULong
+        case IntegralBase.LongLong => 4.toULong
     case NumericReal(base) =>
       base match
         case FloatingBase.Float      => 4.toULong
